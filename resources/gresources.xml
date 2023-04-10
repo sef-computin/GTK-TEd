@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/com/sef-computin/ted">
+    <file preprocess="xml-stripblanks">ui/application_window.ui</file>
+  </gresource>
+</gresources>

@@ -1,3 +1,4 @@
-I wrote this README with my own text editor!
-Yay!
-Made by Yobanny Zadrot
+[TED] - GTK [T]ext [ED]itor.
+I wrote and saved this README with it!
+
+sef-computin

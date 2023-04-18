@@ -2,5 +2,6 @@
 <gresources>
   <gresource prefix="/com/sef-computin/ted">
     <file preprocess="xml-stripblanks">ui/application_window.ui</file>
+    <file preprocess="xml-stripblanks">ui/editor_box.ui</file>
   </gresource>
 </gresources>

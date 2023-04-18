@@ -9,6 +9,8 @@ module TEd
                 file = File.open(@file_name, 'r')
                 @content = file.read
                 file.close
+            else
+                @content = nil
             end
         end
 
@@ -18,6 +20,20 @@ module TEd
                 file.write @content.to_s
                 file.close
             end
+        end
+
+        def is_new?
+            return !File.exists?(@file_name) if @file_name != nil
+            return !@content.to_s.eql?('')
+        end
+
+        def is_modified?
+            if @file_name != nil
+                File.open(@file_name, 'r'){|file|
+                    return !file.read.eql?(@content.to_s)
+                }                   
+            end
+            false
         end
         
     end

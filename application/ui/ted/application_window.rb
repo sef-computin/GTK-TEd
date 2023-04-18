@@ -17,7 +17,6 @@ module TEd
             bind_template_child 'buttons_revealer'
             bind_template_child 'text_view_revealer'
             bind_template_child 'button_new'
-            bind_template_child 'main_text_view'
             bind_template_child 'button_save'
             bind_template_child 'button_close'
             bind_template_child 'button_open'
@@ -29,63 +28,47 @@ module TEd
     
           set_title '[T]ext [ED]itor'
 
+          editor_box = TEd::EditorBox.new
+          text_view_revealer.add editor_box
+
           reveal_editor(visible: false)
 
           button_new.signal_connect 'clicked' do
-            set_title '[TED] - Untitled document'
-            @text_file_session = TEd::TextFile.new
-            main_text_view.buffer.text = ''
-            reveal_editor(visible: true)
+              if editor_box.close_session
+                set_title '[TED] - Untitled document'
+                reveal_editor(visible: true)
+              end
           end
 
           button_open.signal_connect 'clicked' do
-            if file_path = get_file(action: :open)
-              @text_file_session = TEd::TextFile.new(path: file_path)
-              main_text_view.buffer.text = @text_file_session.content
-              reveal_editor(visible: true)
-
-              set_title "[TED] - #{File.basename(@text_file_session.file_name)}"
+            if editor_box.close_session && editor_box.create_session_from_file
+                reveal_editor(visible: true)
+                set_title "[TED] - #{File.basename(editor_box.file_name)}"
             end
           end
 
           button_close.signal_connect 'clicked' do
-            set_title '[T]ext [ED]itor'
-
-            reveal_editor(visible: false)
-            @text_file_session = nil if @text_file_session != nil
+            if editor_box.close_session
+              set_title '[T]ext [ED]itor'
+              reveal_editor(visible: false)
+            end      
           end
 
           button_save.signal_connect 'clicked' do
-            @text_file_session.content = main_text_view.buffer.text
-            
-            if @text_file_session.file_name == nil
-              @text_file_session.file_name = get_file(action: :save) 
-              set_title "[TED] - #{File.basename(@text_file_session.file_name)}"
+            if editor_box.save == :saved_new_file
+              set_title "[TED] - #{File.basename(editor_box.file_name)}"
             end
-            @text_file_session.save!
           end
-          # set_default_size DEFAULT_SIZE[:width], DEFAULT_SIZE[:height]
         end
+
 
         def reveal_editor(visible: true)
           text_view_revealer.set_reveal_child visible
           buttons_revealer.set_reveal_child visible
-
-          if !visible
-            resize DEFAULT_SIZE[:width], DEFAULT_SIZE[:height]
-          end
+          
+          resize DEFAULT_SIZE[:width], DEFAULT_SIZE[:height] if !visible
         end
 
-        def get_file( action: :open )
-          dialog = Gtk::FileChooserDialog.new( title: 'Choose file',
-                                               action: action,
-                                               buttons: [[Gtk::Stock::OPEN, Gtk::ResponseType::ACCEPT], [Gtk::Stock::CANCEL, Gtk::ResponseType::CANCEL]] )
-          if dialog.run == Gtk::ResponseType::ACCEPT
-            filename = dialog.filename
-          end
-          dialog.destroy
-          return filename
-        end
     end
 end
     

@@ -4,6 +4,8 @@
   <requires lib="gtk+" version="3.24"/>
   <template class="TEdApplicationWindow" parent="GtkApplicationWindow">
     <property name="can-focus">False</property>
+    <property name="border-width">2</property>
+    <property name="icon-name">accessories-text-editor</property>
     <child>
       <!-- n-columns=1 n-rows=2 -->
       <object class="GtkGrid" id="main_grid">
@@ -103,11 +105,11 @@
           </packing>
         </child>
         <child>
-          <object class="GtkRevealer" id="text_view_revealer">
+          <object class="GtkRevealer" id="editor_revealer">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="hexpand">False</property>
-            <property name="vexpand">False</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
             <property name="transition-type">none</property>
             <property name="reveal-child">True</property>
             <child>

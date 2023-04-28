@@ -1,13 +1,13 @@
 module TEd
-    class EditorBox < Gtk::Box
+    class EditorPage < Gtk::Box
       type_register
   
       class << self
         def init
-            set_template resource: '/com/sef-computin/ted/ui/editor_box.ui'
+            set_template resource: '/com/sef-computin/ted/ui/editor_page.ui'
 
             bind_template_child 'editor_text_view'
-            bind_template_child 'text_view_scrollbar'
+            # bind_template_child 'text_view_scrollbar'
         end
       end
   

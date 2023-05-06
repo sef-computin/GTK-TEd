@@ -1,5 +1,3 @@
-# require_relative 'application.rb'
-
 require_relative "#{Dir.pwd}/application/models/text_file.rb" 
 
 module TEd 
@@ -7,8 +5,8 @@ module TEd
     class ApplicationWindow < Gtk::ApplicationWindow
         type_register
   
-        DEFAULT_SIZE = {width: 300, height: 60}
-    
+        DEFAULT_SIZE = {width: 400, height: 60}
+
         class << self
           def init
             # Set the template from the resources binary
@@ -16,7 +14,7 @@ module TEd
 
             bind_template_child 'buttons_revealer'
             bind_template_child 'editor_revealer'
-            # bind_template_child 'editor_subwindow'
+            bind_template_child 'editor_notebook'
             bind_template_child 'button_new'
             bind_template_child 'button_save'
             bind_template_child 'button_close'
@@ -29,44 +27,56 @@ module TEd
     
           set_title '[T]ext [ED]itor'
 
-          # editor_pages = []
-
-          editor_page = TEd::EditorPage.new
-          editor_revealer.add editor_page
-
           reveal_editor(visible: false)
 
           button_new.signal_connect 'clicked' do
-            # if editor_pages.is_empty?
-            #   editor_pages << TEd::EditorPage.new
-            # end
-              if editor_page.close_session
-                set_title '[TED] - Untitled document'
-                reveal_editor(visible: true)
-              end
+            start_session(mode: :new)
           end
 
           button_open.signal_connect 'clicked' do
-            if editor_page.close_session && editor_page.create_session_from_file
-                reveal_editor(visible: true)
-                set_title "[TED] - #{File.basename(editor_page.file_name)}"
-            end
+            start_session(mode: :open)
           end
 
           button_close.signal_connect 'clicked' do
-            if editor_page.close_session
-              set_title '[T]ext [ED]itor'
-              reveal_editor(visible: false)
-            end      
+            current_page = editor_notebook.get_nth_page editor_notebook.current_page 
+            if current_page.close_session
+              editor_notebook.remove_page editor_notebook.current_page
+              resolve_title editor_notebook.current_page
+            end     
           end
 
           button_save.signal_connect 'clicked' do
-            if editor_page.save == :saved_new_file
-              set_title "[TED] - #{File.basename(editor_page.file_name)}"
+            current_page = editor_notebook.get_nth_page editor_notebook.current_page 
+            if current_page.save == :saved_new_file
+              set_title "[TED] - #{File.basename(current_page.file_name)}"
             end
+          end
+
+          editor_notebook.signal_connect 'switch-page' do |_, current_page, page_num|
+            set_title "[TED] - #{File.basename(current_page.file_name)}"
           end
         end
 
+
+        def start_session(mode: :new)
+            
+            new_page = TEd::EditorPage.new(mode: mode)
+            editor_notebook.append_page new_page, Gtk::Label.new("#{File.basename(new_page.file_name)}")
+            editor_notebook.set_page -1
+            set_title "[TED] - #{File.basename(new_page.file_name)}"
+
+            reveal_editor(visible: true)
+        end
+
+        def resolve_title(page_num = nil)
+          if page_num == -1 || page_num == nil
+            set_title '[T]ext [ED]itor'
+            reveal_editor(visible: false)
+          else
+            current_page = editor_notebook.get_nth_page editor_notebook.current_page
+            set_title "[TED] - #{File.basename(current_page.file_name)}"
+          end
+        end
 
         def reveal_editor(visible: true)
           editor_revealer.set_reveal_child visible

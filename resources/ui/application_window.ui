@@ -113,7 +113,30 @@
             <property name="transition-type">none</property>
             <property name="reveal-child">True</property>
             <child>
-              <placeholder/>
+              <object class="GtkNotebook" id="editor_notebook">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="tab-pos">bottom</property>
+                <property name="scrollable">True</property>
+                <child>
+                  <placeholder/>
+                </child>
+                <child type="tab">
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child type="tab">
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child type="tab">
+                  <placeholder/>
+                </child>
+              </object>
             </child>
           </object>
           <packing>

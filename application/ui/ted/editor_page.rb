@@ -7,13 +7,19 @@ module TEd
             set_template resource: '/com/sef-computin/ted/ui/editor_page.ui'
 
             bind_template_child 'editor_text_view'
-            # bind_template_child 'text_view_scrollbar'
         end
       end
   
-      def initialize()
+      def initialize(options = {})
         super()
-        clear!
+
+        if options[:mode] == :open
+          create_session_from_file  
+        elsif options[:mode] == :new 
+          clear!
+        end
+
+        # clear!
       end
 
       def application
@@ -25,6 +31,10 @@ module TEd
       def clear!
         @text_file_session = TEd::TextFile.new
         editor_text_view.buffer.text = ''
+      end
+
+      def refresh
+        editor_text_view.buffer.text = @text_file_session.content
       end
 
       def save
@@ -79,7 +89,8 @@ module TEd
 
 
       def file_name
-        @text_file_session.file_name
+        return @text_file_session.file_name if @text_file_session.file_name != nil
+        return 'Untitled document'
       end
       
       def get_file( action: :open )

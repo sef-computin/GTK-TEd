@@ -19,10 +19,10 @@
           <object class="GtkBox" id="btn_box">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="margin-left">5</property>
             <property name="margin-start">5</property>
             <property name="margin-end">5</property>
-            <property name="margin-top">5</property>
-            <property name="margin-bottom">5</property>
+            <property name="margin-bottom">10</property>
             <property name="hexpand">True</property>
             <property name="spacing">10</property>
             <child>

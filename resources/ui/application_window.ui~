@@ -117,6 +117,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="tab-pos">bottom</property>
+                <property name="scrollable">True</property>
                 <child>
                   <placeholder/>
                 </child>

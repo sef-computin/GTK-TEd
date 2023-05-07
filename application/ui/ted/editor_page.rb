@@ -60,9 +60,6 @@ module TEd
       def close_session
         @text_file_session.content = editor_text_view.buffer.text
 
-        # puts "is_new? #{@text_file_session.is_new?}"
-        # puts "is_modified? #{@text_file_session.is_modified?}"
-
         if !@text_file_session.is_new? && !@text_file_session.is_modified?
           clear!
           return true

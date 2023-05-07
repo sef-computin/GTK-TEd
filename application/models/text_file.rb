@@ -14,6 +14,14 @@ module TEd
             end
         end
 
+        def set_encoding(encoding)
+            begin
+                content.set_encoding(encoding.to_s)
+            rescue => exception
+                print "Error class: #{exception.class}\nMessage: #{exception.message}\n"
+            end
+        end
+
         def save!
             if @file_name != nil
                 file = File.open(@file_name, 'w')

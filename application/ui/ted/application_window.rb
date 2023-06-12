@@ -24,7 +24,7 @@ module TEd
     
         def initialize(application)
           super application: application
-    
+
           set_title '[T]ext [ED]itor'
 
           reveal_editor(visible: false)
@@ -57,9 +57,7 @@ module TEd
           end
         end
 
-
         def start_session(mode: :new)
-            
             new_page = TEd::EditorPage.new(mode: mode)
             editor_notebook.append_page new_page, Gtk::Label.new("#{File.basename(new_page.file_name)}")
             editor_notebook.set_page -1
@@ -85,6 +83,11 @@ module TEd
           resize DEFAULT_SIZE[:width], DEFAULT_SIZE[:height] if !visible
         end
 
+        def destroy(win)
+          puts "destroy"
+          super
+        end
+        
     end
 end
     

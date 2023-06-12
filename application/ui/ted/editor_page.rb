@@ -18,14 +18,7 @@ module TEd
         elsif options[:mode] == :new 
           clear!
         end
-
         # clear!
-      end
-
-      def application
-        parent = self.parent
-        parent = parent.parent while !parent.is_a? Gtk::ApplicationWindow
-        parent.application
       end
 
       def clear!
@@ -60,7 +53,8 @@ module TEd
       def close_session
         @text_file_session.content = editor_text_view.buffer.text
 
-        if !@text_file_session.is_new? && !@text_file_session.is_modified?
+        # if !@text_file_session.is_new? && !@text_file_session.is_modified?
+        if safe_to_close?
           clear!
           return true
         end
@@ -84,6 +78,9 @@ module TEd
         return true    
       end
 
+      def safe_to_close?
+        return !@text_file_session.is_new? && !@text_file_session.is_modified?
+      end
 
       def file_name
         return @text_file_session.file_name if @text_file_session.file_name != nil

@@ -31,7 +31,7 @@ module TEd
         end
 
         def is_new?
-            return !File.exists?(@file_name) if @file_name != nil
+            return !File.exist?(@file_name) if @file_name != nil
             return !@content.to_s.eql?('')
         end
 

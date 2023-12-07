@@ -1,4 +1,5 @@
-require_relative "#{Dir.pwd}/application/models/text_file.rb" 
+application_path = File.dirname(__FILE__)+"/../.."
+require_relative "#{application_path}/models/text_file.rb" 
 
 module TEd 
       

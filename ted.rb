@@ -1,9 +1,10 @@
 require 'gtk3'
 require 'fileutils'
 
-application_root_path = File.expand_path(__dir__)
+# application_root_path = File.expand_path(__dir__)
+application_root_path = File.dirname(__FILE__)
 
-Dir[__dir__+"/application/ui/ted/*"].each {|file| require file }
+Dir[application_root_path+"/application/ui/ted/*"].each {|file| require file }
 
 resource_xml = File.join(application_root_path, 'resources', 'gresources.xml')
 resource_bin = File.join(application_root_path, 'resources', 'gresource.bin')

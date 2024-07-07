@@ -59,12 +59,16 @@ module TEd
         end
 
         def start_session(mode: :new)
+          begin
             new_page = TEd::EditorPage.new(mode: mode)
             editor_notebook.append_page new_page, Gtk::Label.new("#{File.basename(new_page.file_name)}")
             editor_notebook.set_page -1
             set_title "[TED] - #{File.basename(new_page.file_name)}"
 
             reveal_editor(visible: true)
+          rescue 
+            new_page = nil
+          end
         end
 
         def resolve_title(page_num = nil)

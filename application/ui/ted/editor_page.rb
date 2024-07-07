@@ -14,7 +14,9 @@ module TEd
         super()
 
         if options[:mode] == :open
-          create_session_from_file  
+          if create_session_from_file != true
+            raise "error while opening a file"
+          end
         elsif options[:mode] == :new 
           clear!
         end
